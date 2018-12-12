@@ -1,0 +1,15 @@
+/_temp
+/_test
+
+*.out
+*.so
+*.a
+
+*.exe
+*.dll
+*.lib
+
+*.log
+.idea
+
+go.mod
