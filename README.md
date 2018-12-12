@@ -51,6 +51,7 @@ Reveal.js 可能会需要 AJAX 异步加载 Markdown 文件, 可以在当前目�
 ***
 
 ## Emscripten是什么?
+-------------------
 
 ##### 将C/C++代码转为JavaScript代码的工具.
 
@@ -66,38 +67,56 @@ Reveal.js 可能会需要 AJAX 异步加载 Markdown 文件, 可以在当前目�
 
 ---
 
-## 工具链
+### 工具链
+---------
 
 ![](images/EmscriptenToolchain.png) <!-- .element: style="width:100%; height:500px;" -->
 
 ---
 
-## JS转换流程
+### JS转换流程
+-------------
 
 ![](images/toolchain-webgl.png) <!-- .element: style="width:100%; height:500px;" -->
 
 ---
 
-## 性能对比
+### 性能对比
+-----------
 
 ![](images/cppbench.png) <!-- .element: style="width:100%;" -->
 
 ---
 
-## [下载Emscripten](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
+### [下载Emscripten](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
+----------
 
 ![](images/download-sdk-01.png) <!-- .element: style="width:100%; height:500px;" -->
 
 ---
-
-## 安装Emscripten(Windows)
+### 安装Emscripten(Windows)
+-------------------------
 
 ![](images/install-win-01.png) <!-- .element: style="width:48%; height:500px;" --> ![](images/install-win-02.png) <!-- .element: style="width:48%; height:500px;" -->
+
+---
+### 安装Emscripten(Docker)
+-------------------------
+
+```
+$ docker run --rm -it -v `pwd`:/src apiaryio/emcc emcc
+$ docker run --rm -it -v `pwd`:/src apiaryio/emcc:1.38.11 emcc
+```
+
+------
+
+- Docker环境切换emcc版本比较方便
 
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 ***
 
 ## 你好, 世界!
+-------------
 
 hello.cc:
 
@@ -119,8 +138,8 @@ $ node a.out.js
 ```
 
 ---
-
-## 你好, 世界! - 构造HTML5页面
+### 你好, 世界! - 构造HTML5页面
+----------------------------
 
 指定输出的文件名:
 
@@ -138,16 +157,16 @@ emcc hello.cc -o index.js
 ```
 
 ---
-
-## 你好, 世界! - 浏览器运行
+### 你好, 世界! - 浏览器运行
+-------------------------
 
 Chrome调试窗口查看输出:
 
 ![](images/hello-01.png) <!-- .element: style="width:100%;" -->
 
 ---
-
-## 你好, 世界! - 自动生成HTML
+### 你好, 世界! - 自动生成HTML
+---------------------------
 
 ![](images/hello-02.png) <!-- .element: style="width:100%; height:480px;" -->
 
@@ -156,8 +175,8 @@ emcc hello.cc -o hello.html
 ```
 
 ---
-
-## 你好, 世界! - SDL模拟放大镜
+### 你好, 世界! - SDL模拟放大镜
+----------------------------
 
 <div style="width:480px; height:480px; margin:0 auto;">
 	<a title="SDL模拟放大镜" href="examples/hello-again-v2/index.html" target="_blank">
@@ -172,8 +191,8 @@ emcc hello.cc -o hello.html
 </div>
 
 ---
-
-## 你好, 世界! - 浏览器调试C语言
+### 你好, 世界! - 浏览器调试C语言
+-----------------------------
 
 <div style="width:80%; height:480px; margin:0 auto;">
 	<a title="SDL模拟放大镜" href="examples/c4" target="_blank">
@@ -186,6 +205,7 @@ emcc hello.cc -o hello.html
 ***
 
 ## C语言支持
+-----------
 
 ```c
 #include <emscripten.h>
@@ -200,8 +220,8 @@ int main() {
 `emscripten_run_script` 直接运行JS脚本
 
 ---
-
-## EM_ASM: C语言内嵌JS代码
+### EM_ASM: C语言内嵌JS代码
+-------------------------
 
 ```c
 #include <emscripten.h>
@@ -230,8 +250,8 @@ printf("%d\n", x);
 ```
 
 ---
-
-## JS字符串转C字符串
+### JS字符串转C字符串
+------------------
 
 ```js
 var buf = Module._malloc(myTypedArray.length*myTypedArray.BYTES_PER_ELEMENT);
@@ -241,8 +261,8 @@ Module._free(buf);
 ```
 
 ---
-
-## 调用JS函数(A)
+### 调用JS函数(A)
+----------------
 
 ```js
 // myLib.js
@@ -266,8 +286,8 @@ emcc main.c --js-library myLib.js
 ```
 
 ---
-
-## 调用JS函数(B)
+### 调用JS函数(B)
+----------------
 
 ```js
 function _js_func(x) { // from JavaScript library
@@ -281,8 +301,8 @@ function _main() { // compiled from C
 ```
 
 ---
-
-## 调用C函数
+### 调用C函数
+------------
 
 ```c
 // C file that was compiled to JS
@@ -301,8 +321,8 @@ var result = ccall(
 ```
 
 ---
-
-## 导出C函数
+### 导出C函数
+------------
 
 ```js
 // Call C from JS
@@ -317,8 +337,8 @@ console.log(c_add(20, 30)); // 50
 ```
 
 ---
-
-## 内存模型
+### 内存模型
+-----------
 
 ```js
 var buffer = new ArrayBuffer(32768);
@@ -341,8 +361,8 @@ function mem_set(ptr) {
 不能直接访问JS空间的数组数据
 
 ---
-
-## 警告: 未定义行为
+### 警告: 未定义行为
+-------------------
 
 ```c
 char buffer[8];
@@ -358,7 +378,8 @@ JS环境错误(SAFE_HEAP可以, 但是性能很低)
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 ***
 
-### EMBIND: C++支持
+## EMBIND: C++支持
+------------------
 
 ```c++
 // Access JS objects in C++ like C++ objects
@@ -373,8 +394,8 @@ int main() {
 ```
 
 ---
-
-## 导出C++函数
+### 导出C++函数
+--------------
 
 ```c++
 // quick_example.cpp
@@ -405,8 +426,8 @@ emcc --bind -o quick_example.js quick_example.cpp
 ```
 
 ---
-
-## 导出C++函数
+### 导出C++函数
+--------------
 
 ```c++
 // C++ library
@@ -427,8 +448,8 @@ alert(Module.c_add(10, 20)); // shows 30
 ```
 
 ---
-
-## 导出C++类
+### 导出C++类
+------------
 
 ```c++
 // C++ class wrapped by Embind
@@ -462,6 +483,7 @@ myCat.delete()
 ***
 
 ## 消息循环(A)
+-------------
 
 ```c
 int main() {
@@ -474,8 +496,8 @@ int main() {
 ```
 
 ---
-
-## 消息循环(B)
+### 消息循环(B)
+-------------
 
 ```c
 #include <emscripten.h>
@@ -496,8 +518,8 @@ int main() {
 ```
 
 ---
-
-## 消息循环: HTML5
+### 消息循环: HTML5
+------------------
 
 ```c
 #include <emscripten.h>
@@ -513,8 +535,8 @@ int main() {
 ```
 
 ---
-
-## 消息循环: SDL
+### 消息循环: SDL
+----------------
 
 ```c
 #include <SDL.h>
@@ -531,8 +553,8 @@ int main() {
 ```
 
 ---
-
-## 消息循环: GLES 2.0
+### 消息循环: GLES 2.0
+---------------------
 
 ```c
 void do_web_frame() {
@@ -550,8 +572,8 @@ void do_web_frame() {
 ```
 
 ---
-
-## 异步调用
+### 异步调用
+-----------
 
 JavaScript:
 
@@ -574,6 +596,7 @@ emscripten_async_call([](void* arg) {
 ***
 
 ## 调式信息
+----------
 
 `-g0` 禁止输出调试信息, `-O1` 以上优化默认选项
 
@@ -602,8 +625,8 @@ function _addAndPrint(a, b) {
 ```
 
 ---
-
-## 调式信息
+### 调式信息
+-----------
 
 `-g3` 或 `-g` 保留函数名和变量名:
 
@@ -618,15 +641,16 @@ function _addAndPrint($left, $right) {
 `-g4` 保留映射表, 可以定位到 C/C++ 代码.
 
 ---
-
-## 调式信息
+### 调式信息
+-----------
 
 ![](images/hello-debug-01.png) <!-- .element: style="width:100%; height:560px" -->
 
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 ***
 
-### ASM.js
+## ASM.js
+----------
 
 ```js
 function strlen(ptr) {
@@ -649,8 +673,8 @@ function strlen(ptr) {
 ASM.js 是 JavaScript 汇编语言, 采用 C 语言编程模型
 
 ---
-
-## ASM.js: 生成机器码
+### ASM.js: 生成机器码
+--------------------
 
 ```js
 function f(i, j, k) {
@@ -670,8 +694,8 @@ retq
 ```
 
 ---
-
-## ASM.js: 类型
+### ASM.js: 类型
+---------------
 
 普通变量根据初始值确定数据类型:
 
@@ -694,8 +718,8 @@ function f(d, i) {
 ```
 
 ---
-
-## ASM.js: 类型转换
+### ASM.js: 类型转换
+-------------------
 
 ```js
 function f(d, i) {
@@ -709,8 +733,8 @@ function f(d, i) {
 ```
 
 ---
-
-## ASM.js: 类型必须匹配
+### ASM.js: 类型必须匹配
+----------------------
 
 ```js
 // f : int -> void
@@ -735,8 +759,8 @@ callq  <f>
 ```
 
 ---
-
-## 数学运算
+### 数学运算
+-----------
 
 ```
           +,- : (int, int) -> intish  OR
@@ -750,8 +774,8 @@ callq  <f>
 intish 为 JavaScript 数值类型, 使用前必须转型
 
 ---
-
-## ASM.js: 模块
+### ASM.js: 模块
+---------------
 
 ```js
 // The outer function acts as a module
@@ -773,8 +797,8 @@ function asmModule(global, imports, heap) {
 ```
 
 ---
-
-## C => ASM.js (A)
+### C => ASM.js (A)
+-------------------
 
 C++:
 
@@ -795,8 +819,8 @@ function func(p) {
 ```
 
 ---
-
-## C => ASM.js (B)
+### C => ASM.js (B)
+-------------------
 
 c++:
 
@@ -825,8 +849,8 @@ function main() {
 ```
 
 ---
-
-## C++ => ASM.js: C++异常 (A)
+### C++ => ASM.js: C++异常 (A)
+------------------------------
 
 C++:
 
@@ -857,8 +881,8 @@ function func() {
 ```
 
 ---
-
-## C++ => ASM.js: C++异常 (B)
+### C++ => ASM.js: C++异常 (B)
+-----------------------------
 
 ```js
 function invoke(ptr) {
@@ -880,8 +904,8 @@ function do_throw(ptr) {
 基于JS异常实现, 然后进行栈拆包
 
 ---
-
-## ASM.js => WebAssembly (A)
+### ASM.js => WebAssembly (A)
+-----------------------------
 
 ```js
 function () {
@@ -902,8 +926,8 @@ $ bin/asm2wasm test/hello_world.asm.js
 https://github.com/WebAssembly/binaryen
 
 ---
-
-## ASM.js => WebAssembly (B)
+### ASM.js => WebAssembly (B)
+-----------------------------
 
 ![](images/binaryen-colors.png) <!-- .element: style="width:100%;" -->
 
@@ -914,6 +938,7 @@ https://github.com/WebAssembly/binaryen
 ***
 
 ## JavaScript性能
+----------------
 
 #### JavaScript 目前是地球上最快的脚本语言, 感谢 V8 引擎
 
@@ -924,8 +949,8 @@ https://github.com/WebAssembly/binaryen
 #### 比 C/C++ 慢 1 ~ 10 倍
 
 ---
-
-## JS性能优化：JIT技术
+### JS性能优化：JIT技术
+--------------------
 
 ```js
 // 实践中, x 是较小的整数
@@ -941,8 +966,8 @@ function sum(x) {
 ```
 
 ---
-
 ### JS性能优化: TypeArray
+------------------------
 
 ```js
 // 带类型的数组, 性能和原生程序一样快
@@ -960,8 +985,8 @@ function sumArray(x) {
 TypeArray 可以直接对应物理内存模型
 
 ---
-
 ### JS性能优化: 浮点数?
+---------------------
 
 ```js
 var floats = new Float32Array(calc());
@@ -982,8 +1007,8 @@ floats[2] = Math.fround(floats[1] + floats[2]) + 1;
 JavaScript 只有 double 一种数值类型
 
 ---
-
 ### JS性能优化: SIMD 指令
+-----------------------
 
 ![](images/simd.jpg) <!-- .element: style="width:100%; height:300px;" -->
 
@@ -997,8 +1022,8 @@ var z = SIMD.add(x, y);
 用好 SIMD 指令, 可以秒杀 C/C++ 性能
 
 ---
-
 ### JS性能优化: ASM.js
+---------------------
 
 ```js
 function strlen(ptr) {
@@ -1021,8 +1046,8 @@ function strlen(ptr) {
 ASM.js 是 JavaScript 汇编语言, 采用 C 语言编程模型
 
 ---
-
 ### JS性能优化: WebAssembly
+---------------------------
 
 ![](images/binaryen-colors.png) <!-- .element: style="width:100%;" -->
 
@@ -1035,6 +1060,7 @@ https://github.com/WebAssembly/binaryen
 ***
 
 ## 2018: WebAssembly 1.0
+------------------------
 
 - 2018.07 - WebAssembly 发布1.0规范
 - 2018.08 - Go1.11开始试验性地⽀持WebAssembly
@@ -1046,6 +1072,7 @@ https://github.com/WebAssembly/binaryen
 
 ---
 ### Windows 2000 on WebAssembly
+-------------------------------
 
 #### ![](images/win2k-on-wasm.png) <!-- .element: style="width:70%;" -->
 
@@ -1067,6 +1094,7 @@ https://github.com/WebAssembly/binaryen
 
 ---
 ### WebAssembly资料
+------------------
 
 #### ![](images/wasm-books.png) <!-- .element: style="width:80%;" -->
 
@@ -1076,6 +1104,7 @@ https://github.com/WebAssembly/binaryen
 ***
 
 ## 参考资源
+----------
 
 #### http://emscripten.org
 
