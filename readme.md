@@ -9,6 +9,8 @@
 - https://chai2010.cn/emscripten-talk/
 - https://github.com/chai2010/awesome-wasm-zh
 
+[![](screenshot.png)](https://chai2010.cn/emscripten-talk)
+
 
 ## 面向WebAssembly编程 - 2020 开源图书，已出版
 
